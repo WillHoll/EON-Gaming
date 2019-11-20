@@ -1,14 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import './Header.css'
 
-class Header extends Component {
-
+function Header()  {
   render() {
+
     return (
-      <div className='Header'>
-        
-      </div>
+      <header>
+        <img src="" alt="Eon logo"/>
+        <nav>
+          <ul>
+            <li>Home</li>
+            <li>News</li>
+            <li>Events</li>
+            <li>Media</li>
+          </ul>
+        </nav>
+        {
+          username
+          ?
+          <div className="profile-holder">
+            <img src={profile_pic} alt=""/>
+            
+          </div>
+          :
+
+        }
+      </header>
     );
   }
 }
