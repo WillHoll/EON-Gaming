@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import './Header.css'
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state ={
 
-    }
-  }
-  
   render() {
     return (
-      <div>
-        Header.jsx
+      <div className='Header'>
+        
       </div>
     );
   }
