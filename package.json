@@ -5,17 +5,22 @@
   "main": "server/server.js",
   "proxy": "http://localhost:4005",
   "dependencies": {
+    "aws-sdk": "^2.575.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "massive": "^6.1.1",
     "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
+    "react-dropzone": "^10.2.0",
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "redux": "^4.0.4"
+    "react-spinners": "^0.6.1",
+    "redux": "^4.0.4",
+    "uuid": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
