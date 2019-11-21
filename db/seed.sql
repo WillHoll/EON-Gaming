@@ -50,5 +50,24 @@ CREATE TABLE eventpost (
   event_id SERIAL PRIMARY KEY,
   title VARCHAR(100),
   content TEXT,
-  user_id INT REFERENCES 
-)
+  user_id INT REFERENCES users (user_id)
+);
+
+CREATE TABLE eventpost_image (
+  eventpost_image_id SERIAL PRIMARY KEY,
+  event_id INT REFERENCES eventpost (event_id)
+  image_id INT REFERENCES images (image_id)
+);
+
+CREATE TABLE mediapost (
+  media_id SERIAL PRIMARY KEY,
+  title VARCHAR(100),
+  content TEXT,
+  user_id INT REFERENCES users (user_id)
+);
+
+CREATE TABLE mediapost_image (
+  mediapost_image_id SERIAL PRIMARY KEY,
+  media_id INT REFERENCES mediapost (media_id),
+  image_id INT REFERENCES images (image_id)
+);
