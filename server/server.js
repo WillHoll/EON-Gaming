@@ -26,7 +26,11 @@ app.post('/auth/login', authCtrl.login);
 app.get('/auth/profile/info/:user_id', authCtrl.getInfo);
 app.put('/auth/profile/edit/:user_id', authCtrl.editProfile);
 app.put('/auth/profile/password/:user_id', authCtrl.updatePassword);
-app.post('/auth/logout', authCtrl.logout)
+app.post('/auth/logout', authCtrl.logout);
+
+// news post endpoints
+
+app.get('/news/posts', newsCtrl.getPosts);
 
 //AMAZON S3 BUCKET URL REQUEST
 
