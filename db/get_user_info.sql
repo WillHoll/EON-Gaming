@@ -1,4 +1,4 @@
 SELECT * FROM users u
-JOIN images i ON u.images_id = i.images_id
+JOIN images i ON u.image_id = i.image_id 
 JOIN userlinks l ON l.user_id = u.user_id
-WHERE user_id = $1
+WHERE u.user_id = $1;

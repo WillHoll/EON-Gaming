@@ -4,7 +4,7 @@ module.exports = {
   register: async (req, res) => {
     const db = req.app.get('db');
     const { email, username, password } = req.body;
-    const foundUsername = await db.find_user([username]);
+    const foundUsername = await db.find_user_by_username([username]);
     const foundEmail = await db.find_email([email]);
     if (+foundEmail[0].count !== 0) {
       return res.status(409).send({ message: 'Email already registered to a user' })
@@ -13,7 +13,6 @@ module.exports = {
       return res.status(409).send({ message: 'Username taken' });
     };
     const image_id = await db.add_image([`https://robohash.org/${username}`]);
-    console.log(image_id);
     const profile_pic = await db.get_image_by_id([image_id[0].image_id])
     const { image_url } = profile_pic[0].image_url;
     const user_id = await db.register_user({ username, image_id: image_id[0].image_id });
@@ -23,12 +22,16 @@ module.exports = {
     db.add_hash([hash, user_id[0].user_id]);
     db.add_authority([false, false, false, false, user_id[0].user_id]);
     req.session.user = { user_id: user_id[0].user_id, username, profile_pic: image_url };
-    req.status(201).send({ message: 'logged in', user: req.session.user });
+    res.status(201).send({ message: 'logged in', user: req.session.user });
   },
   makeProfile: async (req, res) => {
     const db = req.app.get('db');
     const { user_id, username, image_url, discord, facebook, twitch, twitter } = req.body;
-    const findImage = db.get_user_by_user_id([user_id]);
+    const foundUsername = await db.username_finder([user_id, username]);
+    if (+foundUsername[0].count !== 0) {
+      return res.status(409).send({ message: 'Username taken' });
+    };
+    const findImage = await db.get_user_by_user_id([user_id]);
     const { image_id } = findImage[0];
     db.update_image_url([image_id, image_url]);
     if (username !== findImage[0].username) {
@@ -57,7 +60,7 @@ module.exports = {
   getInfo: async (req, res) => {
     const db = req.app.get('db');
     const { user_id } = req.params;
-    const allUserInfo = db.get_user_info([user_id]);
+    const allUserInfo = await db.get_user_info([user_id]);
     const { username, image_url, email, discord, twitch, facebook, twitter } = allUserInfo[0];
     res.status(200).send({ username, user_id, image_url, email, discord, twitter, twitch, facebook });
   },
@@ -65,9 +68,19 @@ module.exports = {
     const db = req.app.get('db');
     const {username, image_url, email, discord, twitter, facebook, twitch } = req.body;
     const {user_id} = req.params;
-    const currinfo = db.get_user_info([user_id]);
+    //Check if this works
+    const foundUsername = await db.username_finder([user_id, username]);
+    const foundEmail = await db.email_finder([user_id, email]);
+    if (+foundUsername[0].count !== 0) {
+      return res.status(409).send({ message: 'Username taken' });
+    };
+    if (+foundEmail[0].count !== 0) {
+      return res.status(409).send({ message: 'Email already registered to a user' })
+    }
+    // Good past here
+    const currinfo = await db.get_user_info([user_id]);
     if (username !== currinfo[0].username) {
-      db.update_username([username]);
+      db.update_username([user_id, username]);
     };
     if (image_url !== currinfo[0].image_url) {
       db.update_image_url([currinfo[0].image_id, image_url]);
@@ -92,5 +105,9 @@ module.exports = {
     const newHash = bcrypt.hashSync(newPassword, salt);
     db.update_hash([user_id, newHash]);
     res.status(202).send({message: 'password updated successfully'});
+  },
+  logout: (req, res) => {
+    req.session.destroy();
+    res.status(200).send({message: 'logged out'})
   }
 };
