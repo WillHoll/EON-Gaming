@@ -38,6 +38,7 @@ CREATE TABLE newspost (
   news_id SERIAL PRIMARY KEY,
   title VARCHAR(100),
   content TEXT
+  post_time TIMESTAMPTZ
 );
 
 CREATE TABLE newspost_image (
@@ -50,6 +51,7 @@ CREATE TABLE eventpost (
   event_id SERIAL PRIMARY KEY,
   title VARCHAR(100),
   content TEXT,
+  post_time TIMESTAMPTZ,
   user_id INT REFERENCES users (user_id)
 );
 
@@ -63,6 +65,7 @@ CREATE TABLE mediapost (
   media_id SERIAL PRIMARY KEY,
   title VARCHAR(100),
   content TEXT,
+  post_time TIMESTAMPTZ,
   user_id INT REFERENCES users (user_id)
 );
 

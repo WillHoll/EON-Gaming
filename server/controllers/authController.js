@@ -12,7 +12,7 @@ module.exports = {
     if (+foundUsername[0].count !== 0) {
       return res.status(409).send({ message: 'Username taken' });
     };
-    const image_id = await db.auth.add_image([`https://robohash.org/${username}`]);
+    const image_id = await db.add_image([`https://robohash.org/${username}`]);
     const profile_pic = await db.auth.get_image_by_id([image_id[0].image_id])
     const { image_url } = profile_pic[0].image_url;
     const user_id = await db.auth.register_user({ username, image_id: image_id[0].image_id });
@@ -33,7 +33,7 @@ module.exports = {
     };
     const findImage = await db.auth.get_user_by_user_id([user_id]);
     const { image_id } = findImage[0];
-    db.auth.update_image_url([image_id, image_url]);
+    db.update_image_url([image_id, image_url]);
     if (username !== findImage[0].username) {
       db.auth.update_username([user_id, username]);
     };
@@ -83,7 +83,7 @@ module.exports = {
       db.auth.update_username([user_id, username]);
     };
     if (image_url !== currinfo[0].image_url) {
-      db.auth.update_image_url([currinfo[0].image_id, image_url]);
+      db.update_image_url([currinfo[0].image_id, image_url]);
     };
     if (email !== currinfo[0].email || discord !== currinfo[0].discord || twitter !== currinfo[0].twitter || facebook !== currinfo[0].facebook || twitch !== currinfo[0].twitch) {
       db.auth.update_userlinks({user_id, email, discord, twitter, facebook, twitch});

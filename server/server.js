@@ -30,7 +30,7 @@ app.post('/auth/logout', authCtrl.logout);
 
 // news post endpoints
 
-app.get('/news/posts', newsCtrl.getPosts);
+app.get('/news/posts', newsCtrl.getNews);
 
 //AMAZON S3 BUCKET URL REQUEST
 
