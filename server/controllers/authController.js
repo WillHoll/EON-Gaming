@@ -4,6 +4,7 @@ module.exports = {
   register: async (req, res) => {
     const db = req.app.get('db');
     const { email, username, password } = req.body;
+    // Check if username or email are taken
     const foundUsername = await db.auth.find_user_by_username([username]);
     const foundEmail = await db.auth.find_email([email]);
     if (+foundEmail[0].count !== 0) {
@@ -12,15 +13,21 @@ module.exports = {
     if (+foundUsername[0].count !== 0) {
       return res.status(409).send({ message: 'Username taken' });
     };
+    //setting up default image for profile_pic !must be created first in order to create user
     const image_id = await db.add_image([`https://robohash.org/${username}`]);
-    const profile_pic = await db.auth.get_image_by_id([image_id[0].image_id])
-    const { image_url } = profile_pic[0].image_url;
+    const profile_img = await db.auth.get_image_by_id([image_id[0].image_id])
+    const { image_url } = profile_img[0].image_url;
+    //actually create user on user table
     const user_id = await db.auth.register_user({ username, image_id: image_id[0].image_id });
+    //setup for link table
     db.auth.add_email({ email, facebook: '', twitch: '', twitter: '', discord: '', user_id: user_id[0].user_id });
+    //hash stuff
     const salt = bcrypt.genSaltSync(11);
     const hash = bcrypt.hashSync(password, salt);
     db.auth.add_hash([hash, user_id[0].user_id]);
+    // setup authority priviliges
     db.auth.add_authority([false, false, false, false, user_id[0].user_id]);
+    //send certain user info to session and front end
     req.session.user = { user_id: user_id[0].user_id, username, profile_pic: image_url };
     res.status(201).send({ message: 'logged in', user: req.session.user });
   },

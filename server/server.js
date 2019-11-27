@@ -37,7 +37,7 @@ app.delete('/news/post/:news_id', newsCtrl.deleteNews);
 
 // event post endpoints
 
-app.get('events/posts', eventsCtrl.getEvents);
+app.get('/events/posts', eventsCtrl.getEvents);
 app.post('/events/posts', eventsCtrl.postEvent);
 app.put('/events/post/:event_id', eventsCtrl.editEvent);
 app.delete('/events/post/:event_id', eventsCtrl.deleteEvent)

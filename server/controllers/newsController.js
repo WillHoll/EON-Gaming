@@ -46,7 +46,7 @@ module.exports = {
     const { title, content } = req.body;
     const { news_id } = req.params;
     try {
-      db.news.change_news({ news_id, title, content })
+      await db.news.change_news({ news_id, title, content })
     } catch (err) {
       return console.log(err)
     };
@@ -56,19 +56,19 @@ module.exports = {
     db = req.app.get('db');
     const { news_id } = req.params;
     const imageIds = await db.news.get_image_ids([news_id]);
-    await db.news.delete_newspost_image([news_id])
+    await db.news.delete_newspost_image([news_id]);
     imageIds.forEach(async el => {
       try{
-      await db.delete_image(el.image_id)
+        await db.delete_image([el.image_id])
       } catch (err) {
         return console.log(err)
-      }
-    })
+      };
+    });
     try {
-    await db.news.delete_news([news_id])
+      await db.news.delete_news([news_id])
     } catch (err) {
       return console.log(err)
-    }
-    res.status(200).send({ message: 'post deleted' })
+    };
+    res.status(200).send({ message: 'post deleted' });
   }
 }
