@@ -40,7 +40,14 @@ app.delete('/news/post/:news_id', newsCtrl.deleteNews);
 app.get('/events/posts', eventsCtrl.getEvents);
 app.post('/events/posts', eventsCtrl.postEvent);
 app.put('/events/post/:event_id', eventsCtrl.editEvent);
-app.delete('/events/post/:event_id', eventsCtrl.deleteEvent)
+app.delete('/events/post/:event_id', eventsCtrl.deleteEvent);
+
+// media post endpoints
+
+app.get('/media/posts', mediaCtrl.getMedia);
+app.post('/media/posts', mediaCtrl.postMedia);
+app.put('/media/post/:media_id', mediaCtrl.editMedia);
+app.delete('/media/post/:media_id', mediaCtrl.deleteMedia);
 
 //AMAZON S3 BUCKET URL REQUEST
 

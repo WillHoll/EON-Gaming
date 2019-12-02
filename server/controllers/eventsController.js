@@ -53,7 +53,7 @@ module.exports = {
     db = req.app.get('db');
     const { event_id } = req.params;
     const imageIds = await db.events.get_image_ids([event_id]);
-    await db.news.delete_eventpost_image([event_id]);
+    await db.events.delete_eventpost_image([event_id]);
     imageIds.forEach(async el => {
       try {
         await db.delete_image([el.image_id])
