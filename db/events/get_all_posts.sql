@@ -1,4 +1,4 @@
-SELECT * FROM eventpost
+SELECT * FROM eventpost e
 WHERE event_id IN (
   SELECT event_id FROM eventpost
   ORDER BY event_id DESC

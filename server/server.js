@@ -30,6 +30,7 @@ app.post('/auth/logout', authCtrl.logout);
 
 // news post endpoints
 
+app.get('/news/post', newsCtrl.getFirstNews)
 app.get('/news/posts', newsCtrl.getNews);
 app.post('/news/posts', newsCtrl.postNews);
 app.put('/news/post/:news_id', newsCtrl.editNews);
@@ -37,6 +38,7 @@ app.delete('/news/post/:news_id', newsCtrl.deleteNews);
 
 // event post endpoints
 
+app.get('/events/post', eventsCtrl.getFirstEvent);
 app.get('/events/posts', eventsCtrl.getEvents);
 app.post('/events/posts', eventsCtrl.postEvent);
 app.put('/events/post/:event_id', eventsCtrl.editEvent);
@@ -44,6 +46,7 @@ app.delete('/events/post/:event_id', eventsCtrl.deleteEvent);
 
 // media post endpoints
 
+app.get('/media/post', mediaCtrl.getFirstMedia);
 app.get('/media/posts', mediaCtrl.getMedia);
 app.post('/media/posts', mediaCtrl.postMedia);
 app.put('/media/post/:media_id', mediaCtrl.editMedia);

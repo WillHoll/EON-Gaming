@@ -8,6 +8,8 @@ module.exports = {
     //adds the images to each post object as a single key/value pair "imageUrls: [ 'imageurl 1', 'imageurl 2', 'imageurl 3' ]"
     return10.forEach(async post => {
       let newPost = { ...post };
+      const authorInfo = await db.get_author_info([post.user_id])
+      newPost.authorInfo = authorInfo[0];
       const imageArr = await db.media.get_image_to_post([post.media_id]);
       let images = [];
       imageArr.forEach(image => {
@@ -21,6 +23,27 @@ module.exports = {
       };
     });
   },
+  getFirstMedia: async (req, res) => {
+    db = req.app.get('db');
+    const firstPost = await db.media.get_first_post();
+    // reused getMedia forEach method since it is confirmed to work
+    let firstPostImg = [];
+    firstPost.forEach(async post => {
+      let newPost = {...post};
+      const authorInfo = await db.get_author_info([post.user_id])
+      newPost.authorInfo = authorInfo[0];
+      const imageArr = await db.media.get_image_to_post([post.media_id]);
+      let images = [];
+      imageArr.forEach(image => {
+        images.push(image.image_url);
+      });
+      newPost.imageUrls = images;
+      firstPostImg.push(newPost);
+      if (firstPostImg.length === firstPost.length) {
+        res.status(200).send(firstPostImg[0]);
+      }
+    });
+  },
   postMedia: async (req, res) => {
     db = req.app.get('db');
     const { title, user_id, content, urlArr } = req.body;
@@ -29,7 +52,7 @@ module.exports = {
       urlArr.forEach(url => {
         db.add_image([url])
         .then(result => {
-          db.media.add_media_image([mediaPostId[0].event_id, result[0].imageid])
+          db.media.add_media_image([mediaPostId[0].media_id, result[0].image_id])
         })
         .catch(err => {
           console.log(err)

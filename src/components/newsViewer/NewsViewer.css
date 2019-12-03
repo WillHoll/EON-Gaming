@@ -1,0 +1,18 @@
+.NewsViewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.NewsViewer .media-holder {
+  display: flex;
+}
+
+.media-holder img {
+  height: 200px;
+  margin: 2px;
+}
+
+.NewsViewer article {
+  width: 80%;
+}

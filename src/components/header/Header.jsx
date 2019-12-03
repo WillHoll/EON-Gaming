@@ -6,6 +6,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {withRouter} from 'react-router-dom';
 
 function Header(props) {
+
+
   const { username, profile_pic, user_id } = props
   return (
     <header>
@@ -32,7 +34,7 @@ function Header(props) {
           </div>
           :
           <div className='button-holder'>
-            <button>Login</button>
+            <button onClick={() => props.history.push(`/login`)}>Login</button>
             <button onClick={() => props.history.push(`/register`)}>Register</button>
           </div>
         }

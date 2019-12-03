@@ -1,6 +1,7 @@
 const initialState ={
-  username: '',
-  profile_pic: '',
+  currUsername: '',
+  currProfile_pic: '',
+  currUser_id: 0,
   landingAuth: false,
   newsAuth: false,
   eventsAuth: false,

@@ -1,0 +1,3 @@
+SELECT * FROM newspost
+ORDER BY news_id DESC
+LIMIT 1;

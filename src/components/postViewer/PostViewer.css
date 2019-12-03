@@ -1,0 +1,31 @@
+.PostViewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile_holder{
+  align-self: flex-start;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.profile_holder img {
+  height: 50px;
+  border-radius: 50%;
+}
+
+.PostViewer .media-holder {
+  display: flex;
+
+}
+
+.PostViewer .media-holder img {
+  height: 200px;
+  margin: 2px;
+}
+.PostViewer article {
+  width: 80%;
+}

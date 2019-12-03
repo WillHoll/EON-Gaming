@@ -1,4 +1,5 @@
-SELECT * FROM mediapost
+SELECT * FROM mediapost m
+JOIN users u ON u.user_id = m.user_id
 WHERE media_id IN (
   SELECT media_id FROM mediapost
   ORDER BY media_id DESC

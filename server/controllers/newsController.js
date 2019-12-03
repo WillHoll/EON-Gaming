@@ -24,6 +24,26 @@ module.exports = {
     }
     thisfn();
   },
+  getFirstNews: async (req, res) => {
+    db = req.app.get('db');
+    const firstPost = await db.news.get_first_post()
+    // reused previous function because I knew it worked and didn't have time to test another method
+    let firstPostImg = [];
+    firstPost.forEach(async post => {
+      let newPost = { ...post };
+      const imageArr = await db.news.get_image_to_post([post.news_id]);
+      let images = [];
+      imageArr.forEach(image => {
+        images.push(image.image_url);
+      });
+      newPost.imageUrls = images
+      firstPostImg.push(newPost)
+      if (firstPostImg.length === firstPost.length) {
+        res.status(200).send(firstPostImg[0])
+      }
+    })
+
+  },
   postNews: async (req, res) => {
     db = req.app.get('db');
     const { title, content, urlArr } = req.body;

@@ -9,6 +9,8 @@ module.exports = {
     return10.forEach(async post => {
       let newPost = { ...post }
       const imageArr = await db.events.get_image_to_post([post.event_id])
+      const authorInfo = await db.get_author_info([post.user_id])
+      newPost.authorInfo = authorInfo[0];
       let images = [];
       imageArr.forEach(image => {
         images.push(image.image_url)
@@ -17,9 +19,30 @@ module.exports = {
       return10Image.push(newPost);
       // async function won't wait for forEach to finish, so res.status needed to be inside forEach so it would fire last
       if (return10Image.length === return10.length) {
-        res.status(200).send(return10Image)
-      }
-    })
+        res.status(200).send(return10Image);
+      };
+    });
+  },
+  getFirstEvent: async (req, res) => {
+    db = req.app.get('db');
+    const firstPost = await db.events.get_first_post();
+    // mimic previous forEach method since it is confirmed to work
+    let firstPostImg = [];
+    firstPost.forEach(async post=> {
+      let newPost = {...post};
+      const imageArr = await db.events.get_image_to_post([post.event_id])
+      const authorInfo = await db.get_author_info([post.user_id])
+      newPost.authorInfo = authorInfo[0];
+      let images = [];
+      imageArr.forEach(image => {
+        images.push(image.image_url)
+      });
+      newPost.imageUrls = images;
+      firstPostImg.push(newPost);
+      if (firstPostImg.length === firstPost.length) {
+        res.status(200).send(firstPostImg[0]);
+      };
+    });
   },
   postEvent: async (req, res) => {
     db = req.app.get('db');
