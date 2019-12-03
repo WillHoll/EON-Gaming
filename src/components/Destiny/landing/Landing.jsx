@@ -80,15 +80,15 @@ class Landing extends Component {
     return (
       <div className='Landing'>
         <h2>NEWS </h2>
-        <Link to='/news' className={'link'}>
+        <Link to='/news' className='link'>
           <NewsViewer post={firstNews} adm={userIsAdmin}  pv={preview} />
         </Link>
         <h2>EVENTS</h2>
-        <Link to='/events' className={'link'}>
+        <Link to='/events' className='link'>
           <PostViewer post={firstEvent} adm={userIsAdmin} pv={preview} />
         </Link>
         <h2>MEDIA</h2>
-        <Link to='/media' className={'link'}>
+        <Link to='/media' className='link'>
           <PostViewer post={firstMedia} adm={userIsAdmin} pv={preview} />
         </Link>
       </div>

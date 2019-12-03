@@ -6,8 +6,6 @@
 
 .Landing .link {
   margin: 14px;
-  text-decoration: inherit;
-  color: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;

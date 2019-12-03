@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './Header.css'
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 
 function Header(props) {
 
@@ -16,10 +16,18 @@ function Header(props) {
       </div>
       <nav>
         <ul>
-          <li>Home</li>
-          <li>News</li>
-          <li>Events</li>
-          <li>Media</li>
+          <Link to='/' className='link'>
+            <li>Home</li>
+          </Link >
+          <Link to='/news' className='link'>
+            <li>News</li>
+          </Link>
+          <Link to='/events' className='link'>
+            <li>Events</li>
+          </Link>
+          <Link to='/media' className='link'>
+            <li>Media</li>
+          </Link>
         </ul>
       </nav>
       {

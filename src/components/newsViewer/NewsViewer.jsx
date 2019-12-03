@@ -2,7 +2,7 @@ import React from 'react';
 import './NewsViewer.css'
 
 const NewsViewer = (props) => {
-  const { title, content, imageUrls, adm } = props.post
+  const { title, content, imageUrls } = props.post
   return (
     <div className='NewsViewer'>
       <h1>{title}</h1>
@@ -14,7 +14,7 @@ const NewsViewer = (props) => {
       <article>{content}</article>
       {!props.pv
         &&
-        adm
+        props.adm
         &&
         <div className="button-holder">
           <button>Edit</button>
