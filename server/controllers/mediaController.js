@@ -55,7 +55,7 @@ module.exports = {
           db.media.add_media_image([mediaPostId[0].media_id, result[0].image_id])
         })
         .catch(err => {
-          console.log(err)
+          return res.status(500).send(err)
         });
       });
     };
@@ -66,9 +66,9 @@ module.exports = {
     const { title, content } = req.body;
     const { media_id } = req.params;
     try {
-      await db.media.change_media({ media_id, title, content })
+      await db.media.change_media({ media_id, title, content });
     } catch (err) {
-      return console.log(err)
+      return res.status(500).send(err);
     };
     res.status(200).send({ message: 'post edited' })
   },
@@ -78,17 +78,16 @@ module.exports = {
     await db.media.delete_mediapost_image([media_id]);
     imageIds.forEach(async el => {
       try {
-        await db.delete_image([el.image_id])
+        await db.delete_image([el.image_id]);
       } catch (err) {
-        return console.log(err)
+        return res.status(500).send(err);
       };
-      
     });
     try {
       await db.media.delete_media([media_id]);
     } catch (err) {
-      return console.log(err)
+      return res.status(500).send(err);
     };
-    res.status(200).send ({ message: 'post deleted' })
+    res.status(200).send({ message: 'post deleted' });
   }
 }

@@ -30,8 +30,8 @@ class News extends Component {
   render() {
     const {newsList, userIsAdmin, preview} = this.state
     const newsMap = newsList.map(post => (
-      <div className="post-container">
-        <NewsViewer post={post} key={post.news_id} adm={userIsAdmin} pv={preview} />
+      <div key={post.news_id} className="post-container">
+        <NewsViewer post={post} adm={userIsAdmin} pv={preview} />
       </div>
     ))
     return (

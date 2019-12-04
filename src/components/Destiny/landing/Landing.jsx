@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import PostViewer from './../../postViewer/PostViewer';
+import PostViewer from '../../postViewer/PostViewer';
 import NewsViewer from './../../newsViewer/NewsViewer';
 import { Link } from 'react-router-dom';
 import './Landing.css';
@@ -9,31 +9,7 @@ class Landing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstNews: {
-        title: '',
-        content: '',
-        imageUrls: []
-      },
-      firstEvent: {
-        authorInfo: {
-          profile_pic: '',
-          username: ''
-        },
-        user_id: '',
-        title: '',
-        content: '',
-        imageUrls: []
-      },
-      firstMedia: {
-        authorInfo: {
-          profile_pic: '',
-          username: '',
-        },
-        user_id: '',
-        title: '',
-        content: '',
-        imageUrls: []
-      },
+      firsts: [],
       userIsAdmin: false,
       preview: true
     }
@@ -77,11 +53,12 @@ class Landing extends Component {
 
   render() {
     const { firstNews, firstMedia, firstEvent, userIsAdmin, preview } = this.state
+    const viewers = 
     return (
       <div className='Landing'>
         <h2>NEWS </h2>
         <Link to='/news' className='link'>
-          <NewsViewer post={firstNews} adm={userIsAdmin}  pv={preview} />
+          <NewsViewer post={firstNews} adm={userIsAdmin} pv={preview} />
         </Link>
         <h2>EVENTS</h2>
         <Link to='/events' className='link'>
