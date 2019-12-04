@@ -1,25 +1,57 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './NewsViewer.css'
+import axios from 'axios';
 
 const NewsViewer = (props) => {
-  const { title, content, imageUrls } = props.post
+  const [edit, setEdit] = useState(false);
+  const [title, setTitle] = useState(props.post.title);
+  const [content, setContent] = useState(props.post.content);
+
+  function deletePost() {
+    axios
+      .delete(`/news/post/${props.post.news_id}`)
+      .then(results => {
+        console.log(results.data.message)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  };
+
+  const { imageUrls } = props.post
   return (
     <div className='NewsViewer'>
-      <h1>{title}</h1>
+      {!edit ? <h1>{title}</h1> : <input onChange={e => setTitle(e.target.value)} value={title}/>}
       <div className="media-holder">
         {imageUrls.map((url, i) => (
           <img src={url} alt={i} key={i} />
         ))}
       </div>
-      <article>{content}</article>
-      {!props.pv
-        &&
-        props.adm
-        &&
-        <div className="button-holder">
-          <button>Edit</button>
-          <button>Delete</button>
-        </div>
+      {!edit ? <article>{content}</article> : <textarea onChange={e => setContent(e.target.value)} vaule={content}/>}
+      {
+        !props.pv
+          ?
+          //{
+          props.adm
+            ?
+            //{
+            !edit
+              ?
+              <div className="button-handler">
+                <button onClick={() => setEdit(!edit)}>Edit</button>
+                <button onClick={() => deletePost()}>Delete</button>
+              </div>
+              :
+              <div className="button-handler">
+                <button>Save</button>
+                <button onClick={() => setEdit(!edit)}>Cancel</button>
+              </div>
+            //}
+            :
+            null
+          //}
+          :
+          null
       }
     </div>
   );

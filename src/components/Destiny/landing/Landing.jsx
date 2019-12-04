@@ -16,58 +16,73 @@ class Landing extends Component {
   }
 
   componentDidMount() {
-    this.getFirstNews();
-    this.getFirstEvent();
-    this.getFirstMedia();
+    this.getFirst();
   }
 
-  getFirstNews() {
+  getFirst() {
     axios
       .get('/news/post')
       .then(res => {
         this.setState({
-          firstNews: res.data
+          firsts: [...this.state.firsts, res.data]
         });
+        axios
+          .get('/events/post')
+          .then(res => {
+            this.setState({
+              firsts: [...this.state.firsts, res.data]
+            });
+            axios
+              .get('/media/post')
+              .then(res => {
+                this.setState({
+                  firsts: [...this.state.firsts, res.data]
+                });
+              });
+          });
       });
   };
 
-  getFirstEvent() {
-    axios
-      .get('/events/post')
-      .then(res => {
-        this.setState({
-          firstEvent: res.data
-        });
-      });
-  };
-
-  getFirstMedia() {
-    axios
-      .get('/media/post')
-      .then(res => {
-        this.setState({
-          firstMedia: res.data
-        });
-      });
-  };
 
   render() {
-    const { firstNews, firstMedia, firstEvent, userIsAdmin, preview } = this.state
-    const viewers = 
+    const { firsts, userIsAdmin, preview } = this.state
+    const viewers = firsts.map((post, i) => {
+      if (i === 0) {
+        return (
+        <div className="encloser">
+          <h2>NEWS </h2>
+          <Link to='/news' className='link'>
+            <NewsViewer post={post} adm={userIsAdmin} pv={preview} />
+          </Link>
+        </div>
+        )
+      } if (i === 1) {
+        return (
+        <div className="encloser">
+          <h2>EVENTS</h2>
+          <Link to='/events' className='link'>
+            <PostViewer post={post} adm={userIsAdmin} pv={preview} />
+          </Link>
+        </div>
+        )
+      } if (i === 2) {
+        return (
+          <div className="encloser">
+            <h2>MEDIA</h2>
+            <Link to='/media' className='link'>
+              <PostViewer post={post} adm={userIsAdmin} pv={preview} />
+            </Link>
+          </div>
+        )
+      } else {
+        return null
+      }
+    }
+
+    )
     return (
       <div className='Landing'>
-        <h2>NEWS </h2>
-        <Link to='/news' className='link'>
-          <NewsViewer post={firstNews} adm={userIsAdmin} pv={preview} />
-        </Link>
-        <h2>EVENTS</h2>
-        <Link to='/events' className='link'>
-          <PostViewer post={firstEvent} adm={userIsAdmin} pv={preview} />
-        </Link>
-        <h2>MEDIA</h2>
-        <Link to='/media' className='link'>
-          <PostViewer post={firstMedia} adm={userIsAdmin} pv={preview} />
-        </Link>
+        {viewers}
       </div>
     );
   }

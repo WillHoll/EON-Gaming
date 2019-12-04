@@ -4,7 +4,14 @@
   align-items: center;
 }
 
-.Landing .link {
+.encloser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.encloser .link {
   margin: 14px;
   display: flex;
   flex-direction: column;

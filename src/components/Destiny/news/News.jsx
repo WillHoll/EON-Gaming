@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import NewsViewer from './../../newsViewer/NewsViewer';
 import './News.css'
+import { connect } from 'react-redux';
 
 class News extends Component {
   constructor(props) {
@@ -15,6 +16,12 @@ class News extends Component {
 
   componentDidMount() {
     this.getTen()
+  }
+
+  setAuth() {
+    this.setState({
+      userIsAdmin: this.props.newsAuth
+    })
   }
 
   getTen() {
@@ -42,4 +49,11 @@ class News extends Component {
   }
 }
 
-export default News;
+function mapStateToProps(reduxState) {
+  const {newsAuth} = reduxState;
+  return {
+    newsAuth
+  }
+}
+
+export default connect(mapStateToProps)(News);

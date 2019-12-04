@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './Events.css'
 import PostViewer from '../../postViewer/PostViewer';
+import { connect } from 'react-redux';
 
 class Events extends Component {
   constructor(props) {
@@ -10,8 +12,19 @@ class Events extends Component {
       offset: 0,
       userIsAdmin: false,
       preview: false
-    }
-  }
+    };
+  };
+
+  componentDidMount() {
+    this.getEvents();
+    this.setAdmin();
+  };
+
+  setAdmin() {
+    this.setState({
+      userIsAdmin: this.props.eventAuth
+    });
+  };
 
   getEvents() {
     const {offset} = this.state
@@ -24,8 +37,8 @@ class Events extends Component {
       })
       .catch (err => {
         console.log(err)
-      })
-  }
+      });
+  };
 
   render() {
     const {eventsList, userIsAdmin, preview} = this.state;
@@ -33,13 +46,20 @@ class Events extends Component {
       <div key={post.event_id} className="post-container">
         <PostViewer post_id={post.event_id} post={post} adm={userIsAdmin} pv={preview} mode='events'/>
       </div>
-    ))
+    ));
     return (
       <div>
         {eventView}
       </div>
     );
-  }
-}
+  };
+};
 
-export default Events;
+function mapStateToProps(reduxState) {
+  const {eventAuth} = reduxState;
+  return {
+    eventAuth
+  };
+};
+
+export default connect(mapStateToProps)(Events);

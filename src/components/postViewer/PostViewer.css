@@ -12,6 +12,14 @@
   align-items: center;
 }
 
+.textarea {
+  display: block;
+  width: 70%;
+  height: 150px;
+  resize: none;
+  overflow: auto;
+}
+
 .profile_holder img {
   height: 50px;
   border-radius: 50%;

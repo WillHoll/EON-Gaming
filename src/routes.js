@@ -4,6 +4,7 @@ import Landing from './components/Destiny/landing/Landing'
 import News from './components/Destiny/news/News';
 import Events from './components/Destiny/events/Events';
 import Media from './components/Destiny/media/Media';
+import Login from './components/login/Login'
 
 export default (
   <Switch>
@@ -11,5 +12,6 @@ export default (
     <Route path='/news' component={News}/>
     <Route path='/events' component={Events}/>
     <Route path='/media' component={Media} />
+    <Route path='/login' component={Login} />
   </Switch>
 )
