@@ -4,7 +4,7 @@ module.exports = {
   register: async (req, res) => {
     const db = req.app.get('db');
     const { email, username, password } = req.body;
-    // Check if username or email are taken
+    // Checks if username or email are taken
     const foundUsername = await db.auth.find_user_by_username([username]);
     const foundEmail = await db.auth.find_email([email]);
     if (+foundEmail[0].count !== 0) {
@@ -25,7 +25,7 @@ module.exports = {
     const salt = bcrypt.genSaltSync(11);
     const hash = bcrypt.hashSync(password, salt);
     db.auth.add_hash([hash, user_id[0].user_id]);
-    // setup authority priviliges
+    // setup authority priviliges table
     db.auth.add_authority([false, false, false, false, user_id[0].user_id]);
     //send certain user info to session and front end
     req.session.user = { user_id: user_id[0].user_id, username, profile_pic: image_url };

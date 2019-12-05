@@ -8,7 +8,7 @@ import {withRouter, Link} from 'react-router-dom';
 function Header(props) {
 
 
-  const { username, profile_pic, user_id } = props
+  const { currUsername, currProfile_pic, currUser_id } = props
   return (
     <header>
       <div className="logo-holder">
@@ -31,12 +31,12 @@ function Header(props) {
         </ul>
       </nav>
       {
-        username
+        currUser_id !== 0
           ?
           <div className="profile-holder">
-            <img src={profile_pic} alt="" />
-            <DropdownButton alignRight title={username} >
-              <Dropdown.Item onClick={() => props.history.push(`/myprofile/${user_id}`)}>My Profile</Dropdown.Item>
+            <img src={currProfile_pic} alt="" />
+            <DropdownButton alignRight title={currUsername} >
+              <Dropdown.Item onClick={() => props.history.push(`/myprofile/${currUser_id}`)}>My Profile</Dropdown.Item>
               <Dropdown.Item>Logout</Dropdown.Item>
             </DropdownButton>
           </div>
@@ -51,11 +51,11 @@ function Header(props) {
 }
 
 function mapStateToProps(reduxState) {
-  const { username, profile_pic, user_id } = reduxState
+  const { currUsername, currProfile_pic, currUser_id } = reduxState
   return {
-    username,
-    profile_pic,
-    user_id
+    currUsername,
+    currProfile_pic,
+    currUser_id
   }
 }
 

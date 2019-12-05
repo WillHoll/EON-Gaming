@@ -5,6 +5,7 @@ import News from './components/Destiny/news/News';
 import Events from './components/Destiny/events/Events';
 import Media from './components/Destiny/media/Media';
 import Login from './components/login/Login'
+import Register from './components/register/Register';
 
 export default (
   <Switch>
@@ -13,5 +14,6 @@ export default (
     <Route path='/events' component={Events}/>
     <Route path='/media' component={Media} />
     <Route path='/login' component={Login} />
+    <Route path='/register' component={Register} />
   </Switch>
 )

@@ -1,23 +1,62 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { getSession } from './../../ducks/reducer';
+import './Login.css'
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password1: '',
-      password2: ''
+      password: ''
     }
   }
-  
+
+  loggerInner(body) {
+    axios
+      .post('/auth/register/login', body)
+      .then(result => {
+        const { user_id, username, image_url } = result.data.user;
+        console.log(result.data.message);
+        this.props.getSession(username, image_url, user_id);
+        this.props.history.push(`/`)
+      })
+      .catch(err => {
+        alert(err.result.data.message)
+      })
+  }
+
+  usernameHandler(value) {
+    this.setState({
+      username: value
+    });
+  };
+
+  passwordHandler(value) {
+    this.setState({
+      password: value
+    })
+  }
+
   render() {
+    const { username, password } = this.state
     return (
       <div className='login'>
         <div className="login-holder">
           <h2>LOGIN</h2>
-          <div className="usernamer">
-            <h4>username:</h4>
-            <input value={username}/>
+          <div className="input-holder">
+            <div className="input-h4">
+              <h4>Username:</h4>
+              <input value={username} maxLength='40' onChange={e => this.usernameHandler(e.target.value)} />
+            </div>
+            <div className="input-h4">
+              <h4>Password:</h4>
+              <input value={password} maxLength='20' onChange={e => this.passwordHandler(e.target.value)} />
+            </div>
+          </div>
+          <div className="button-holder">
+            <button onClick={() => this.loggerInner({ username, password })}>Login</button>
           </div>
         </div>
       </div>
@@ -25,4 +64,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(null, { getSession })(Login);
