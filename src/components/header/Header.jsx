@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import './Header.css'
+import axios from 'axios';
+import './Header.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {withRouter, Link} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import { reduxResetter } from './../../ducks/reducer';
 
 function Header(props) {
+
+  function killSession() {
+    axios
+      .post('/auth/logout')
+      .then(response => {
+        console.log(response.data.message);
+        reduxResetter();
+      })
+  }
+
+  function retrieveSession() {
+
+  }
+
+  useEffect(() => {
+
+  }, [])
+
 
 
   const { currUsername, currProfile_pic, currUser_id } = props
@@ -36,8 +56,8 @@ function Header(props) {
           <div className="profile-holder">
             <img src={currProfile_pic} alt="" />
             <DropdownButton alignRight title={currUsername} >
-              <Dropdown.Item onClick={() => props.history.push(`/myprofile/${currUser_id}`)}>My Profile</Dropdown.Item>
-              <Dropdown.Item>Logout</Dropdown.Item>
+              <Dropdown.Item onClick={() => props.history.push(`/myprofile`)}>My Profile</Dropdown.Item>
+      <Dropdown.Item onClick={() => killSession()}> Logout</Dropdown.Item>
             </DropdownButton>
           </div>
           :
@@ -45,10 +65,10 @@ function Header(props) {
             <button onClick={() => props.history.push(`/login`)}>Login</button>
             <button onClick={() => props.history.push(`/register`)}>Register</button>
           </div>
-        }
+      }
     </header>
   );
-}
+};
 
 function mapStateToProps(reduxState) {
   const { currUsername, currProfile_pic, currUser_id } = reduxState
@@ -59,4 +79,4 @@ function mapStateToProps(reduxState) {
   }
 }
 
-export default connect(mapStateToProps)(withRouter(Header));
+export default connect(mapStateToProps, {reduxResetter})(withRouter(Header));

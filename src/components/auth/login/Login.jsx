@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { getSession } from './../../ducks/reducer';
+import { getSession } from '../../../ducks/reducer';
 import './Login.css'
 
 class Login extends Component {
@@ -15,11 +15,11 @@ class Login extends Component {
 
   loggerInner(body) {
     axios
-      .post('/auth/register/login', body)
+      .post('/auth/login', body)
       .then(result => {
-        const { user_id, username, image_url } = result.data.user;
+        const { user_id, username, image_url, landingauth, newsauth, eventauth, mediaauth } = result.data.user;
         console.log(result.data.message);
-        this.props.getSession(username, image_url, user_id);
+        this.props.getSession(username, image_url, user_id, landingauth, newsauth, eventauth, mediaauth);
         this.props.history.push(`/`)
       })
       .catch(err => {
@@ -52,7 +52,7 @@ class Login extends Component {
             </div>
             <div className="input-h4">
               <h4>Password:</h4>
-              <input value={password} maxLength='20' onChange={e => this.passwordHandler(e.target.value)} />
+              <input value={password} maxLength='20' type='password' onChange={e => this.passwordHandler(e.target.value)} />
             </div>
           </div>
           <div className="button-holder">

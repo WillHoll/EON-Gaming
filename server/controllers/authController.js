@@ -28,7 +28,7 @@ module.exports = {
     // setup authority priviliges table
     db.auth.add_authority([false, false, false, false, user_id[0].user_id]);
     //send certain user info to session and front end
-    req.session.user = { user_id: user_id[0].user_id, username, profile_pic: image_url };
+    req.session.user = { user_id: user_id[0].user_id, username, profile_pic: image_url, landingAuth: false, eventsAuth: false, newsAuth: false, mediaAuth: false };
     res.status(201).send({ message: 'logged in', user: req.session.user });
   },
   makeProfile: async (req, res) => {
@@ -46,7 +46,7 @@ module.exports = {
     };
     db.auth.set_userlinks([user_id, discord, facebook, twitch, twitter]);
     req.session.user = { user_id, username, image_url };
-    res.status(202).send({ message: 'updated info', user: req.session.user });
+    res.status(201).send({ message: 'updated info', user: req.session.user });
   },
   login: async (req, res) => {
     const db = req.app.get('db');
@@ -56,12 +56,12 @@ module.exports = {
       return res.status(401).send({ message: 'Incorrect username or password' });
     };
     const userinfo = await db.auth.find_user_hash([username]);
-    const { hash, user_id, image_url } = userinfo[0];
+    const { hash, user_id, image_url, landingauth, newsauth, eventauth, mediaauth} = userinfo[0];
     const result = bcrypt.compareSync(password, hash);
     if (!result) {
       return res.status(401).send({ message: 'Incorrect username or password' });
     };
-    req.session.user = { user_id, username, image_url }
+    req.session.user = { user_id, username, image_url, landingauth, newsauth, eventauth, mediaauth }
     res.status(200).send({ message: 'logged in', user: req.session.user })
   },
   getInfo: async (req, res) => {

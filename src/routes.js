@@ -4,8 +4,9 @@ import Landing from './components/Destiny/landing/Landing'
 import News from './components/Destiny/news/News';
 import Events from './components/Destiny/events/Events';
 import Media from './components/Destiny/media/Media';
-import Login from './components/login/Login'
-import Register from './components/register/Register';
+import Login from './components/auth/login/Login'
+import Register from './components/auth/register/Register';
+import Profiler from './components/auth/profiler/Profiler';
 
 export default (
   <Switch>
@@ -14,6 +15,7 @@ export default (
     <Route path='/events' component={Events}/>
     <Route path='/media' component={Media} />
     <Route path='/login' component={Login} />
-    <Route path='/register' component={Register} />
+    <Route exact path='/register' component={Register} />
+    <Route path='/register/profiler' component={Profiler} />
   </Switch>
 )

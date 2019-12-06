@@ -51,3 +51,8 @@ header button:hover {
   cursor: pointer;
 
 }
+
+header .profile-holder img {
+  border-radius: 50%;
+  height: 50px;
+}

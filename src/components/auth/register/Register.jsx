@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { getSession } from '../../../ducks/reducer';
 import './Register.css'
 
 class Register extends Component {
@@ -18,7 +20,9 @@ class Register extends Component {
       axios
         .post('/auth/register/login', body)
         .then(result => {
-          
+          const {user_id, username, profile_pic, landingAuth, newsAuth, eventsAuth, mediaAuth} = result.data.user;
+          this.props.getSession(username, profile_pic, user_id, landingAuth, newsAuth, eventsAuth, mediaAuth);
+          this.props.history.push('/register/profiler')
         })
     } else {
       alert('passwords do not match')
@@ -33,7 +37,7 @@ class Register extends Component {
           <h2>CREATE ACCOUNT</h2>
           <div className="input-h4 ">
             <h4>Email:</h4>
-            <input value={email} maxLength='70' onChange={e => this.setState({ email: e.target.value })} type="text" />
+            <input value={email} maxLength='40' onChange={e => this.setState({ email: e.target.value })} type="text" />
           </div>
           <div className="input-h4">
             <h4>Username:</h4>
@@ -41,11 +45,11 @@ class Register extends Component {
           </div>
           <div className="input-h4">
             <h4>Password:</h4>
-            <input value={password1} onChange={e => this.setState({ password1: e.target.value })} maxLength='20' type="text" />
+            <input value={password1} onChange={e => this.setState({ password1: e.target.value })} maxLength='20' type="password" />
           </div>
           <div className="input-h4">
             <h4>Confirm Password:</h4>
-            <input value={password2} onChange={e => this.setState({ password2: e.target.value })} maxLength='20' type="text" />
+            <input value={password2} onChange={e => this.setState({ password2: e.target.value })} maxLength='20' type="password" />
           </div>
           <div className="button-holder">
             <button onClick={() => this.registerer({email, username, password: password1})} >Register</button>
@@ -56,4 +60,4 @@ class Register extends Component {
   };
 };
 
-export default Register;
+export default connect(null, {getSession})(Register);
