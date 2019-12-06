@@ -20,7 +20,23 @@ class Events extends Component {
   componentDidMount() {
     this.getEvents();
     this.setAdmin();
+    this.sessionCheck();
   };
+
+  sessionCheck() {
+    if (this.props.currUser_id !== 0) {
+      const {currUser_id, eventsAuth} = this.props
+      this.setState({user_id: currUser_id, userIsAdmin: eventsAuth})
+    }
+    if (this.props.currUser_id === 0) {
+      axios
+        .get('/auth/session')
+        .then(response => {
+          const {user_id, eventsauth} = response.data
+          this.setState({user_id, userIsAdmin: eventsauth})
+        })
+    }
+  }
   
   setAdmin() {
     this.setState({
@@ -42,17 +58,7 @@ class Events extends Component {
     });
   };
 
-  setUserId() {
-    const {currUser_id} = this.props
-    console.log(currUser_id);
-    if (!currUser_id) {
-      return alert('must log in to post');
-    } else {
-      this.setState({
-        user_id: this.props.currUser_id
-      });
-    };
-  };
+  
   
   render() {
     const {eventsList, userIsAdmin, preview, user_id} = this.state;
@@ -63,7 +69,7 @@ class Events extends Component {
     ));
     return (
       <div className='events'>
-        <button onClick={() => this.setUserId()} >Post</button>
+        
         {user_id ? <Poster /> : null}
         {eventView}
       </div>
@@ -72,9 +78,9 @@ class Events extends Component {
 };
 
 function mapStateToProps(reduxState) {
-  const {eventAuth, currUser_id} = reduxState;
+  const {eventsAuth, currUser_id} = reduxState;
   return {
-    eventAuth,
+    eventsAuth,
     currUser_id
   };
 };

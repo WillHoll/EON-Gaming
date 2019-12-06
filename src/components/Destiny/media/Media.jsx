@@ -11,20 +11,30 @@ class Media extends Component {
       mediaList: [],
       offset: 0,
       userIsAdmin: false,
-      preview: false
+      preview: false,
+      user_id: 0
     };
   };
 
   componentDidMount() {
-    this.setAdmin();
+    this.sessionCheck();
     this.getMedia();
   };
 
-  setAdmin() {
-    this.setState({
-      userIsAdmin: this.props.mediaAuth
-    });
-  };
+  sessionCheck() {
+    if (this.props.currUser_id !== 0) {
+      const {currUser_id, mediaAuth} = this.props
+      this.setState({user_id: currUser_id, userIsAdmin: mediaAuth})
+    }
+    if (this.props.currUser_id === 0) {
+      axios
+        .get('/auth/session')
+        .then(response => {
+          const {user_id, mediaauth} = response.data
+          this.setState({user_id, userIsAdmin: mediaauth})
+        })
+    }
+  }
 
   getMedia() {
     const {offset} = this.state
@@ -38,7 +48,7 @@ class Media extends Component {
   };
   
   render() {
-    const {mediaList, userIsAdmin, preview} = this.state;
+    const {mediaList, userIsAdmin, preview, user_id} = this.state;
     const mediaView = mediaList.map(post => (
       <div key={post.media_id} className="post-container">
         <PostViewer post_id={post.media_id} post={post} adm={userIsAdmin} pv={preview} mode='media'/>
@@ -46,7 +56,7 @@ class Media extends Component {
     ));
     return (
       <div className='media'>
-        {this.props.currUser_id ? <Poster /> : null}
+        {user_id ? <Poster /> : null}
         {mediaView}
       </div>
     );

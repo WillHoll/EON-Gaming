@@ -3,6 +3,7 @@ import axios from 'axios';
 import NewsViewer from './../../newsViewer/NewsViewer';
 import './News.css'
 import { connect } from 'react-redux';
+import Poster from '../../poster/Poster';
 
 class News extends Component {
   constructor(props) {
@@ -15,13 +16,24 @@ class News extends Component {
   }
 
   componentDidMount() {
-    this.getTen()
+    this.getTen();
+    this.sessionCheck();
   }
 
-  setAuth() {
-    this.setState({
-      userIsAdmin: this.props.newsAuth
-    })
+
+  sessionCheck() {
+    if (this.props.currUser_id !== 0) {
+      const {newsAuth} = this.props
+      this.setState({userIsAdmin: newsAuth})
+    }
+    if (this.props.currUser_id === 0) {
+      axios
+        .get('/auth/session')
+        .then(response => {
+          const {newsauth} = response.data
+          this.setState({userIsAdmin: newsauth})
+        })
+    }
   }
 
   getTen() {
@@ -43,6 +55,7 @@ class News extends Component {
     ))
     return (
       <div className='News'>
+        {userIsAdmin ? <Poster /> : null}
         {newsMap}
       </div>
     );
@@ -50,9 +63,10 @@ class News extends Component {
 }
 
 function mapStateToProps(reduxState) {
-  const {newsAuth} = reduxState;
+  const {newsAuth, currUser_id} = reduxState;
   return {
-    newsAuth
+    newsAuth,
+    currUser_id
   }
 }
 
