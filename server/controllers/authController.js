@@ -56,12 +56,12 @@ module.exports = {
       return res.status(401).send({ message: 'Incorrect username or password' });
     };
     const userinfo = await db.auth.find_user_hash([username]);
-    const { hash, user_id, image_url, landingauth, newsauth, eventauth, mediaauth} = userinfo[0];
+    const { hash, user_id, image_url, landingauth, newsauth, eventsauth, mediaauth} = userinfo[0];
     const result = bcrypt.compareSync(password, hash);
     if (!result) {
       return res.status(401).send({ message: 'Incorrect username or password' });
     };
-    req.session.user = { user_id, username, image_url, landingauth, newsauth, eventauth, mediaauth }
+    req.session.user = { user_id, username, image_url, landingauth, newsauth, eventsauth, mediaauth }
     res.status(200).send({ message: 'logged in', user: req.session.user })
   },
   getInfo: async (req, res) => {
@@ -116,5 +116,10 @@ module.exports = {
   logout: (req, res) => {
     req.session.destroy();
     res.status(200).send({message: 'logged out'})
+  },
+  getUserSession: async (req,res) => {
+    if (req.session.user) {
+      res.status(200).send(req.session.user)
+    }
   }
 };

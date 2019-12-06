@@ -49,7 +49,7 @@ class Landing extends Component {
     const viewers = firsts.map((post, i) => {
       if (i === 0) {
         return (
-        <div className="encloser">
+        <div key={i} className="encloser">
           <h2>NEWS </h2>
           <Link to='/news' className='link'>
             <NewsViewer post={post} adm={userIsAdmin} pv={preview} />
@@ -58,7 +58,7 @@ class Landing extends Component {
         )
       } if (i === 1) {
         return (
-        <div className="encloser">
+        <div key={i} className="encloser">
           <h2>EVENTS</h2>
           <Link to='/events' className='link'>
             <PostViewer post={post} adm={userIsAdmin} pv={preview} />
@@ -67,7 +67,7 @@ class Landing extends Component {
         )
       } if (i === 2) {
         return (
-          <div className="encloser">
+          <div key={i} className="encloser">
             <h2>MEDIA</h2>
             <Link to='/media' className='link'>
               <PostViewer post={post} adm={userIsAdmin} pv={preview} />

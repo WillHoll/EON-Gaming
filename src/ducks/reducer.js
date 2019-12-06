@@ -11,7 +11,7 @@ const initialState ={
 //ACTION CONSTANTS
 
 const GET_SESSION = 'GET_SESSION';
-const GET_USER_INFO = 'GET_USER_INFO';
+// const GET_USER_INFO = 'GET_USER_INFO';
 const REDUX_RESETTER = 'REDUX_RESETTER'
 
 //ACTION BUILDERS
@@ -23,12 +23,12 @@ export function getSession(currUsername, currProfile_pic, currUser_id, landingAu
   }
 };
 
-export function getUserInfo(currUsername, currProfile_pic, currUser_id) {
-  return {
-    type: GET_USER_INFO,
-    payload: {currUsername, currProfile_pic, currUser_id}
-  }
-};
+// export function getUserInfo(currUsername, currProfile_pic, currUser_id) {
+//   return {
+//     type: GET_USER_INFO,
+//     payload: {currUsername, currProfile_pic, currUser_id}
+//   }
+// };
 
 export function reduxResetter() {
   return {

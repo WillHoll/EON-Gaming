@@ -17,9 +17,9 @@ class Login extends Component {
     axios
       .post('/auth/login', body)
       .then(result => {
-        const { user_id, username, image_url, landingauth, newsauth, eventauth, mediaauth } = result.data.user;
+        const { user_id, username, image_url, landingauth, newsauth, eventsauth, mediaauth } = result.data.user;
         console.log(result.data.message);
-        this.props.getSession(username, image_url, user_id, landingauth, newsauth, eventauth, mediaauth);
+        this.props.getSession(username, image_url, user_id, landingauth, newsauth, eventsauth, mediaauth);
         this.props.history.push(`/`)
       })
       .catch(err => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PostViewer from '../../postViewer/PostViewer';
 import { connect } from 'react-redux';
+import Poster from '../../poster/Poster';
 
 class Media extends Component {
   constructor(props) {
@@ -44,7 +45,8 @@ class Media extends Component {
       </div>
     ));
     return (
-      <div>
+      <div className='media'>
+        {this.props.currUser_id ? <Poster /> : null}
         {mediaView}
       </div>
     );
@@ -52,9 +54,10 @@ class Media extends Component {
 }
 
 function mapStateToProps(reduxState) {
-  const {mediaAuth} = reduxState
+  const {mediaAuth, currUser_id} = reduxState
   return {
-    mediaAuth
+    mediaAuth,
+    currUser_id
   }
 }
 

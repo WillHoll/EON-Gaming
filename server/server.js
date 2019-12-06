@@ -27,6 +27,7 @@ app.post('/auth/register/login', authCtrl.register );
 app.post('/auth/register/profile', authCtrl.makeProfile);
 app.post('/auth/login', authCtrl.login);
 app.get('/auth/profile/info/:user_id', authCtrl.getInfo);
+app.get('/auth/session', authCtrl.getUserSession)
 app.put('/auth/profile/edit/:user_id', authCtrl.editProfile);
 app.put('/auth/profile/password/:user_id', authCtrl.updatePassword);
 app.post('/auth/logout', authCtrl.logout);
