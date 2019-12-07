@@ -21,7 +21,7 @@ const NewsViewer = (props) => {
           <img src={url} alt={i} key={i} />
         ))}
       </div>
-      {!edit ? <article>{content}</article> : <textarea onChange={e => setContent(e.target.value)} vaule={content}/>}
+      {!edit ? <article>{content}</article> : <textarea onChange={e => setContent(e.target.value)} value={content}/>}
       {
         !props.pv
           ?
