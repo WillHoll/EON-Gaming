@@ -47,7 +47,11 @@ module.exports = {
   postNews: async (req, res) => {
     db = req.app.get('db');
     const { title, content, urlArr } = req.body;
-    const newsPostId = await db.news.add_post([title, content]);
+    try {
+      var newsPostId = await db.news.add_post([title, content]);
+    } catch (err) {
+      res.status(400).send(err)
+    }
     if (urlArr !== []) {
       urlArr.forEach(url => {
         db.add_image([url])
@@ -55,7 +59,7 @@ module.exports = {
             db.news.add_news_image([newsPostId[0].news_id, result[0].image_id]);
           })
           .catch(err => {
-            console.log(err)
+            res.status(500).send(err)
           });
       });
     };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import './PostViewer.css';
@@ -7,22 +7,35 @@ const PostViewer = (props) => {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState(props.post.title);
   const [content, setContent] = useState(props.post.content);
+  const [thisUser_id, setUser_id] = useState(0)
 
-  function deletePost() {
-    axios
-      .delete(`/${props.mode}/post/${props.post_id}`)
-      .then(results => {
-        console.log(results.data.message)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  useEffect(() => {
+    sessionCheck();
+  })
+
+  function sessionCheck() {
+    if (props.currUser_id !== 0) {
+      const {currUser_id} = props
+      setUser_id(currUser_id);
+    };
+    if (props.currUser_id === 0) {
+      axios
+        .get('/auth/session')
+        .then(response => {
+          const {user_id} = response.data
+          setUser_id(user_id);
+        })
+    };
+  };
+
+  function editHandler(title, content, post_id) {
+    props.editerFn(title, content, post_id);
+    setEdit(!edit);
   };
 
 
   const { user_id, imageUrls } = props.post
   const { username, profile_pic } = props.post.authorInfo
-  const { currUser_id } = props
   return (
     <div className='PostViewer'>
       <div className="profile_holder">
@@ -40,18 +53,18 @@ const PostViewer = (props) => {
         !props.pv
           ?
           //{
-          currUser_id === user_id
+          thisUser_id === user_id
             ?
             //{
             !edit
               ?
               <div className="button-handler">
                 <button onClick={() => setEdit(!edit)}>Edit</button>
-                <button onClick={() => deletePost()}>Delete</button>
+                <button onClick={() => props.deleterFn(props.post_id)}>Delete</button>
               </div>
               :
               <div className="button-handler">
-                <button>Save</button>
+                <button onClick={() => editHandler(title, content, props.post_id)} >Save</button>
                 <button onClick={() => setEdit(!edit)}>Cancel</button>
               </div>
             //}
@@ -64,12 +77,12 @@ const PostViewer = (props) => {
       {
         !props.pv
         &&
-        currUser_id !== user_id
+        thisUser_id !== user_id
         &&
         props.adm
         &&
         <div className="button-handler">
-          <button onClick={() => deletePost()}>Remove</button>
+          <button onClick={() => props.deleterFn(props.post_id)}>Remove</button>
         </div>
       }
     </div>

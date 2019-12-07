@@ -1,22 +1,16 @@
 import React, {useState} from 'react';
 import './NewsViewer.css'
-import axios from 'axios';
 
 const NewsViewer = (props) => {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState(props.post.title);
   const [content, setContent] = useState(props.post.content);
 
-  function deletePost() {
-    axios
-      .delete(`/news/post/${props.post.news_id}`)
-      .then(results => {
-        console.log(results.data.message)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  };
+
+  function editHandler(title, content, post_id) {
+    props.newsEditer(title, content, post_id);
+    setEdit(!edit);
+  }
 
   const { imageUrls } = props.post
   return (
@@ -39,11 +33,11 @@ const NewsViewer = (props) => {
               ?
               <div className="button-handler">
                 <button onClick={() => setEdit(!edit)}>Edit</button>
-                <button onClick={() => deletePost()}>Delete</button>
+                <button onClick={() => props.deleterFn(props.post_id)}>Delete</button>
               </div>
               :
               <div className="button-handler">
-                <button>Save</button>
+                <button onClick={() => editHandler(title, content, props.post_id)}>Save</button>
                 <button onClick={() => setEdit(!edit)}>Cancel</button>
               </div>
             //}

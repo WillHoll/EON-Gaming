@@ -28,8 +28,8 @@ module.exports = {
     const firstPost = await db.events.get_first_post();
     // mimic previous forEach method since it is confirmed to work
     let firstPostImg = [];
-    firstPost.forEach(async post=> {
-      let newPost = {...post};
+    firstPost.forEach(async post => {
+      let newPost = { ...post };
       const imageArr = await db.events.get_image_to_post([post.event_id])
       const authorInfo = await db.get_author_info([post.user_id])
       newPost.authorInfo = authorInfo[0];
@@ -47,7 +47,11 @@ module.exports = {
   postEvent: async (req, res) => {
     db = req.app.get('db');
     const { title, user_id, content, urlArr } = req.body;
-    const eventPostId = await db.events.add_post({ title, content, user_id });
+    try {
+      var eventPostId = await db.events.add_post({ title, content, user_id });
+    } catch (err) {
+      return res.status(500).send(err)
+    }
     if (urlArr !== []) {
       urlArr.forEach(url => {
         db.add_image([url])
@@ -76,18 +80,22 @@ module.exports = {
     db = req.app.get('db');
     const { event_id } = req.params;
     const imageIds = await db.events.get_image_ids([event_id]);
-    await db.events.delete_eventpost_image([event_id]);
+    try {
+      await db.events.delete_eventpost_image([event_id]);
+    } catch (err) {
+      return res.status(500).send(err)
+    }
     imageIds.forEach(async el => {
       try {
         await db.delete_image([el.image_id])
       } catch (err) {
-        return console.log(err)
+        return res.status(500).send(err)
       };
     });
     try {
       await db.events.delete_event([event_id]);
     } catch (err) {
-      return console.log(err)
+      return res.status(500).send(err)
     };
     res.status(200).send({ message: 'post deleted' });
   }

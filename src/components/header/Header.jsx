@@ -45,6 +45,7 @@ class Header extends Component {
           currUser_id: 0
         })
         reduxResetter();
+        this.props.history.push('/')
       })
   }
 
