@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const session = require('express-session')
-const massive = require('massive')
+const path = require('path');
+const session = require('express-session');
+const massive = require('massive');
 const aws = require('aws-sdk');
 const authCtrl = require('./controllers/authController');
 const newsCtrl = require('./controllers/newsController');
@@ -20,6 +21,10 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24
   }
 }));
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../build/index.html'));
+// });
 
 //auth endpoints
 
