@@ -93,7 +93,7 @@ class Header extends Component {
             <div className="profile-holder">
               <img src={currProfile_pic} alt="" />
               <DropdownButton alignRight title={currUsername} >
-                <Dropdown.Item onClick={() => this.props.history.push(`/myprofile`)}>My Profile</Dropdown.Item>
+                {/* <Dropdown.Item onClick={() => this.props.history.push(`/myprofile`)}>My Profile</Dropdown.Item> */}
                 <Dropdown.Item onClick={() => this.killSession()}> Logout</Dropdown.Item>
               </DropdownButton>
             </div>

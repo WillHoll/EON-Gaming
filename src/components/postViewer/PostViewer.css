@@ -20,6 +20,10 @@
   overflow: auto;
 }
 
+article {
+  text-align: center;
+}
+
 .profile_holder img {
   height: 50px;
   border-radius: 50%;

@@ -111,7 +111,6 @@ class Events extends Component {
     ));
     return (
       <div className='events'>
-        
         {user_id ? <Poster posterFn={this.eventPoster} /> : null}
         {eventView}
       </div>

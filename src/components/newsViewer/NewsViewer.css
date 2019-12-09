@@ -8,6 +8,10 @@
   display: flex;
 }
 
+article {
+  text-align: center;
+}
+
 .media-holder img {
   height: 200px;
   margin: 2px;
