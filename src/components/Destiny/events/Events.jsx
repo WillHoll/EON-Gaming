@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './Events.css';
+import './events.css';
 import PostViewer from '../../postViewer/PostViewer';
 import { connect } from 'react-redux';
 import Poster from '../../poster/Poster';
