@@ -6,6 +6,13 @@
 
 .NewsViewer .media-holder {
   display: flex;
+  flex-direction: row;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.NewsViewer h1 {
+  text-align: center;
 }
 
 article {
@@ -19,4 +26,9 @@ article {
 
 .NewsViewer article {
   width: 80%;
+}
+@media (max-width: 600px) {
+  .NewsViewer .media-holder {
+    flex-direction: column;
+  }
 }

@@ -23,3 +23,9 @@
 .Register h4 {
   margin-bottom: 7px;
 }
+
+@media (max-width: 600px) {
+  .Register .register-holder {
+    margin-top: 3rem;
+  }
+}

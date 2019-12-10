@@ -24,6 +24,10 @@ article {
   text-align: center;
 }
 
+.PostViewer h1 {
+  text-align: center;
+}
+
 .profile_holder img {
   height: 50px;
   border-radius: 50%;
@@ -40,4 +44,10 @@ article {
 }
 .PostViewer article {
   width: 80%;
+}
+
+@media (max-width: 600px) {
+  .PostViewer .media-holder {
+    flex-direction: column;
+  }
 }

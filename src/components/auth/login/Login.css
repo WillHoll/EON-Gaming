@@ -28,3 +28,9 @@
 .login .button-holder button {
   margin: 10px;
 }
+
+@media (max-width: 600px) {
+  .login .login-holder {
+    margin-top: 3rem;
+  }
+}
