@@ -59,3 +59,7 @@ table {
 }
 
 /*----------------    END RESET.CSS     ------------------------*/
+
+* {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
