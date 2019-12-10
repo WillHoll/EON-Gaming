@@ -33,6 +33,7 @@ header li:hover {
 
 header .button-holder {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   width: 200px;
 }
@@ -55,4 +56,21 @@ header button:hover {
 header .profile-holder img {
   border-radius: 50%;
   height: 50px;
+}
+
+@media (max-width: 600px) {
+  header .profile-holder img {
+    height: 30px;
+  }
+
+  header button {
+    font-size: 0.6rem;
+  }
+
+  header .button-holder {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 200px;
+  }
 }

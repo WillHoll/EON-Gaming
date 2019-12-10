@@ -14,3 +14,9 @@
   flex-direction: column;
   align-items: center;
 }
+
+@media (max-width: 600px) {
+  .News .post-container {
+    width: 90%;
+  }
+}
